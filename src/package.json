@@ -1,0 +1,23 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LikeRudin/coinTracker.git"
+  },
+  "keywords": [
+    "crpto",
+    "currency"
+  ],
+  "author": "KING_BURGER",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LikeRudin/coinTracker/issues"
+  },
+  "homepage": "https://github.com/LikeRudin/coinTracker#readme"
+}
