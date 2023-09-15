@@ -10,6 +10,26 @@
     "type": "git",
     "url": "git+https://github.com/LikeRudin/coinTracker.git"
   },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "styled-components": "^5.3.9",
+    "styled-reset": "^4.4.7"
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react": "^18.2.15",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.0.3"
+  },
   "keywords": [
     "crpto",
     "currency"
