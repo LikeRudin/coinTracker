@@ -39,7 +39,7 @@ const config: WebpackConfig = {
   name: 'via-frontend',
   mode: isDevMode ? DEV_ENV : PROD_ENV,
   devtool: isDevMode ? 'inline-source-map' : 'hidden-source-map',
-  entry: "./src/index.tsx",
+  entry: `./${SOURCE_DIR}/index`,
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx',],
     alias: {
