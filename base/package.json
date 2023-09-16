@@ -2,7 +2,7 @@
   "name": "cointracker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "dev": "cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack-config.json\" webpack serve --env development",
     "build": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-for-webpack-config.json\" webpack"
@@ -24,8 +24,10 @@
     "style-loader": "^3.3.3",
     "styled-components": "^5.3.9",
     "styled-reset": "^4.4.7",
+    "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "webpack-merge": "^5.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.17",

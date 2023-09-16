@@ -12,9 +12,12 @@ import dotenv from 'dotenv';
 const DEV_ENV = 'development';
 const PROD_ENV = 'production';
 const isDevMode = process.env.NODE_ENV !== PROD_ENV;
+console.log(isDevMode);
+
 
 dotenv.config({ path: isDevMode ? '.env.development' : '.env.production' })
 const PORT = process.env.PORT;
+console.log(PORT)
 const SOURCE_DIR = 'src';
 const PUBLIC_DIR = 'public';
 const OUTPUT_DIR = 'dist';
@@ -36,37 +39,36 @@ const config: WebpackConfig = {
   name: 'via-frontend',
   mode: isDevMode ? DEV_ENV : PROD_ENV,
   devtool: isDevMode ? 'inline-source-map' : 'hidden-source-map',
+  entry: "./src/index.tsx",
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx',],
     alias: {
       '@': path.resolve(__dirname, SOURCE_DIR),
     },
   },
-  entry: path.resolve(__dirname, `${SOURCE_DIR}/index`),
-  target: ['web', 'es5'],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                targets: { browsers: ['IE 10'] },
-                debug: isDevMode,
-              },
-            ],
-            '@babel/preset-react',
-            '@babel/preset-typescript',
-          ],
-           env: {
-            development: {
-              plugins: [require.resolve('react-refresh/babel')],
-            },
-          },
-        },
+        use:["babel-loader", "ts-loader"],
+        // options: {
+        //   presets: [
+        //     [
+        //       '@babel/preset-env',
+        //       {
+        //         targets: { browsers: ['IE 10'] },
+        //         debug: isDevMode,
+        //       },
+        //     ],
+        //     '@babel/preset-react',
+        //     '@babel/preset-typescript',
+        //   ],
+        //    env: {
+        //     development: {
+        //       plugins: [require.resolve('react-refresh/babel')],
+        //     },
+        //   },
+        // },
         exclude: path.resolve(__dirname, 'node_modules'),
       },
       {
@@ -106,22 +108,19 @@ const config: WebpackConfig = {
     publicPath: '/',
   },
   devServer: {
-    historyApiFallback: false,
+    historyApiFallback: true,
     port: PORT,
-    devMiddleware: { publicPath: OUTPUT_DIR },
-    static: { directory: path.resolve(__dirname, PUBLIC_DIR) },
+    // devMiddleware: { publicPath: OUTPUT_DIR },
+    // static: { directory: path.resolve(__dirname, PUBLIC_DIR) },
     open: true,
     hot: true,
+    allowedHosts: "all",
   },
 };
 if (isDevMode) {
   if (config.plugins) {
     config.plugins.push(
-      new ReactRefreshWebpackPlugin({
-        overlay: {
-          useURLPolyfill: true,
-        },
-      }),
+      new ReactRefreshWebpackPlugin(),
     );
     config.plugins.push(
       new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: false }),
