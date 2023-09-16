@@ -11,15 +11,15 @@
     "url": "git+https://github.com/LikeRudin/coinTracker.git"
   },
   "dependencies": {
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
+    "@tanstack/react-query": "^4.35.3",
     "cross-env": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
-    "@tanstack/react-query": "^4.35.3",
     "styled-components": "^5.3.9",
-    "styled-reset": "^4.4.7"
+    "styled-reset": "^4.4.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.34.1",
@@ -29,17 +29,19 @@
     "@types/webpack-bundle-analyzer": "^4.6.0",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
+    "dotenv": "^16.3.1",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "fork-ts-checker-webpack-plugin": "^8.0.0",
     "prettier": "^3.0.3",
     "webpack": "^5.88.2",
     "webpack-bundle-analyzer": "^4.9.1",
-    "fork-ts-checker-webpack-plugin": "^8.0.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "keywords": [
     "crpto",

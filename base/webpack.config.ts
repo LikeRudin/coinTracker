@@ -1,13 +1,24 @@
-import webpack, { Configuration } from 'webpack';
+import webpack, { Configuration as WebpackConfig } from 'webpack';
 import path from 'path';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import { Configuration as DevServerConfig } from 'webpack-dev-server';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const PORT = process.env.PORT;
 
 const DEV_ENV = 'development';
 const PROD_ENV = 'production';
 const isDevMode = process.env.NODE_ENV !== PROD_ENV;
 const OUTPUT_DIR = 'dist';
-const config: Configuration = {
+
+interface Configuration extends WebpackConfig {
+  devServer?: DevServerConfig;
+}
+
+const config: WebpackConfig = {
   name: 'via-frontend',
   mode: isDevMode ? DEV_ENV : PROD_ENV,
   devtool: isDevMode ? 'inline-source-map' : 'hidden-source-map',
@@ -28,6 +39,11 @@ const config: Configuration = {
   output: {
     path: path.join(__dirname, OUTPUT_DIR),
     filename: '[name].js',
+  },
+  devServer: {
+    historyApiFallback: false,
+    port: PORT,
+    devMiddleware: { publicPath: OUTPUT_DIR },
   },
 };
 if (isDevMode) {
