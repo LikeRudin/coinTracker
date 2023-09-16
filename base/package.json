@@ -21,7 +21,9 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
     "clean-webpack-plugin": "^4.0.0",
-    "html-webpack-plugin": "^5.5.3"
+    "html-webpack-plugin": "^5.5.3",
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.22.11",
