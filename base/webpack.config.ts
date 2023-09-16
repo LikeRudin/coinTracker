@@ -30,6 +30,9 @@ const config: WebpackConfig = {
   devtool: isDevMode ? 'inline-source-map' : 'hidden-source-map',
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, SOURCE_DIR),
+    },
   },
   entry: `./${SOURCE_DIR}/index`,
   target: ['web', 'es5'],
