@@ -2,6 +2,8 @@ import webpack, { Configuration as WebpackConfig } from 'webpack';
 import path from 'path';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { Configuration as DevServerConfig } from 'webpack-dev-server';
 import dotenv from 'dotenv';
 
@@ -12,6 +14,8 @@ const PORT = process.env.PORT;
 const DEV_ENV = 'development';
 const PROD_ENV = 'production';
 const isDevMode = process.env.NODE_ENV !== PROD_ENV;
+const SOURCE_DIR = 'src';
+const PUBLIC_DIR = 'public';
 const OUTPUT_DIR = 'dist';
 
 interface Configuration extends WebpackConfig {
@@ -25,7 +29,7 @@ const config: WebpackConfig = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
-  entry: './src/index',
+  entry: `./${SOURCE_DIR}/index`,
   target: ['web', 'es5'],
   module: {
     rules: [],
@@ -35,6 +39,10 @@ const config: WebpackConfig = {
       async: false,
     }),
     new webpack.EnvironmentPlugin({ NODE_ENV: isDevMode ? DEV_ENV : PROD_ENV }),
+    new HtmlWebpackPlugin({
+      template: `./${PUBLIC_DIR}/index.html`,
+    }),
+    new CleanWebpackPlugin(),
   ],
   output: {
     path: path.join(__dirname, OUTPUT_DIR),
@@ -44,6 +52,8 @@ const config: WebpackConfig = {
     historyApiFallback: false,
     port: PORT,
     devMiddleware: { publicPath: OUTPUT_DIR },
+    static: { directory: path.resolve(__dirname, PUBLIC_DIR) },
+    open: true,
   },
 };
 if (isDevMode) {
