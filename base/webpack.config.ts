@@ -4,18 +4,17 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
 import { Configuration as DevServerConfig } from 'webpack-dev-server';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import dotenv from 'dotenv';
 
-
-dotenv.config();
-
-const PORT = process.env.PORT;
-
 const DEV_ENV = 'development';
 const PROD_ENV = 'production';
 const isDevMode = process.env.NODE_ENV !== PROD_ENV;
+
+dotenv.config({ path: isDevMode ? '.env.development' : '.env.production' })
+const PORT = process.env.PORT;
 const SOURCE_DIR = 'src';
 const PUBLIC_DIR = 'public';
 const OUTPUT_DIR = 'dist';
@@ -23,6 +22,15 @@ const OUTPUT_DIR = 'dist';
 interface Configuration extends WebpackConfig {
   devServer?: DevServerConfig;
 }
+const ENV: { [x: string]: string } = {
+  NODE_ENV: isDevMode ? DEV_ENV : PROD_ENV,
+};
+for (const key in process.env) {
+  if (key && key.startsWith('REACT_APP_')) {
+    ENV[key] = process.env[key] || '';
+  }
+}
+
 
 const config: WebpackConfig = {
   name: 'via-frontend',
@@ -34,7 +42,7 @@ const config: WebpackConfig = {
       '@': path.resolve(__dirname, SOURCE_DIR),
     },
   },
-  entry: `./${SOURCE_DIR}/index`,
+  entry: path.resolve(__dirname, `${SOURCE_DIR}/index`),
   target: ['web', 'es5'],
   module: {
     rules: [
@@ -65,21 +73,37 @@ const config: WebpackConfig = {
         test: /\.css?$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'images/[name].[ext]',
+              publicPath: '/',
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
       async: false,
     }),
-    new webpack.EnvironmentPlugin({ NODE_ENV: isDevMode ? DEV_ENV : PROD_ENV }),
+    new webpack.EnvironmentPlugin(ENV),
     new HtmlWebpackPlugin({
       template: `./${PUBLIC_DIR}/index.html`,
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: 'public/images', to: 'images' }],
+    }),
   ],
   output: {
     path: path.join(__dirname, OUTPUT_DIR),
-    filename: '[name].js',
+    filename: isDevMode ? '[name].js' : '[name].[contenthash].js',
+    publicPath: '/',
   },
   devServer: {
     historyApiFallback: false,
@@ -92,7 +116,6 @@ const config: WebpackConfig = {
 };
 if (isDevMode) {
   if (config.plugins) {
-    config.plugins.push(new webpack.HotModuleReplacementPlugin());
     config.plugins.push(
       new ReactRefreshWebpackPlugin({
         overlay: {
